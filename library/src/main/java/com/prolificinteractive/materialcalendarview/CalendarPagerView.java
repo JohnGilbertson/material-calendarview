@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
+import android.widget.ImageView;
+
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView.ShowOtherDates;
 import com.prolificinteractive.materialcalendarview.format.DayFormatter;
 import com.prolificinteractive.materialcalendarview.format.WeekDayFormatter;
@@ -59,6 +61,16 @@ abstract class CalendarPagerView extends ViewGroup
       buildWeekDays(resetAndGetWorkingCalendar());
     }
     buildDayViews(dayViews, resetAndGetWorkingCalendar());
+    addDividers();
+  }
+
+  private void addDividers(){
+    int rows=getRows();
+    for(int i=0;i<rows;i++){
+      ImageView iv=new ImageView(getContext());
+      iv.setBackgroundColor(mcv.getDividerColor());
+      addView(iv);
+    }
   }
 
   private void buildWeekDays(LocalDate calendar) {
@@ -289,26 +301,39 @@ abstract class CalendarPagerView extends ViewGroup
     int childLeft = parentLeft;
     int childRight = parentRight;
 
+    int dayIndex=0;
+    int dividerIndex=0;
+
     for (int i = 0; i < count; i++) {
       final View child = getChildAt(i);
 
       final int width = child.getMeasuredWidth();
       final int height = child.getMeasuredHeight();
 
-      if (LocalUtils.isRTL()) {
-        child.layout(childRight - width, childTop, childRight, childTop + height);
-        childRight -= width;
-      } else {
-        child.layout(childLeft, childTop, childLeft + width, childTop + height);
-        childLeft += width;
+      if(child instanceof DayView) {
+
+        if (LocalUtils.isRTL()) {
+          child.layout(childRight - width, childTop, childRight, childTop + height);
+          childRight -= width;
+        } else {
+          child.layout(childLeft, childTop, childLeft + width, childTop + height);
+          childLeft += width;
+        }
+
+        //We should warp every so many children
+        if (dayIndex % DEFAULT_DAYS_IN_WEEK == (DEFAULT_DAYS_IN_WEEK - 1)) {
+          childLeft = parentLeft;
+          childRight = parentRight;
+          childTop += height;
+        }
+
+        dayIndex++;
+      } else if(child instanceof ImageView) {
+        //dividers...
+        child.layout(0,dividerIndex*height,0,(dividerIndex*height)+1);
+        dividerIndex++;
       }
 
-      //We should warp every so many children
-      if (i % DEFAULT_DAYS_IN_WEEK == (DEFAULT_DAYS_IN_WEEK - 1)) {
-        childLeft = parentLeft;
-        childRight = parentRight;
-        childTop += height;
-      }
     }
   }
 

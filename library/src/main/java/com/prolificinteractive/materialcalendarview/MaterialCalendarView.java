@@ -232,6 +232,7 @@ public class MaterialCalendarView extends ViewGroup {
 
   CharSequence calendarContentDescription;
   private int accentColor = 0;
+  private int dividerColor = 0;
   private int tileHeight = INVALID_TILE_DIMENSION;
   private int tileWidth = INVALID_TILE_DIMENSION;
   @SelectionMode
@@ -364,6 +365,13 @@ public class MaterialCalendarView extends ViewGroup {
           )
       );
 
+      setDividerColor(
+              a.getColor(
+                      R.styleable.MaterialCalendarView_mcv_dividerColor,
+                      getThemeAccentColor(context)
+              )
+      );
+
       CharSequence[] array = a.getTextArray(R.styleable.MaterialCalendarView_mcv_weekDayLabels);
       if (array != null) {
         setWeekDayFormatter(new ArrayWeekDayFormatter(array));
@@ -391,6 +399,8 @@ public class MaterialCalendarView extends ViewGroup {
           R.styleable.MaterialCalendarView_mcv_showOtherDates,
           SHOW_DEFAULTS
       ));
+
+
 
       setAllowClickDaysOutsideCurrentMonth(a.getBoolean(
           R.styleable.MaterialCalendarView_mcv_allowClickDaysOutsideCurrentMonth,
@@ -653,7 +663,27 @@ public class MaterialCalendarView extends ViewGroup {
     adapter.setSelectionColor(color);
     invalidate();
   }
+  /**
+   * @return the color used for the selection
+   */
+  public int getDividerColor() {
+    return dividerColor;
+  }
 
+  /**
+   * @param color The selection color
+   */
+  public void setDividerColor(int color) {
+    if (color == 0) {
+      if (!isInEditMode()) {
+        return;
+      } else {
+        color = Color.GRAY;
+      }
+    }
+    dividerColor = color;
+    invalidate();
+  }
   /**
    * Set content description for button past
    *

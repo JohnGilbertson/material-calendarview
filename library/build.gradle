@@ -49,7 +49,7 @@ android.libraryVariants.all { variant ->
   task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
     title "Material CalendarView ${version}"
     description "Generates Javadoc for $variant.name."
-    source = variant.javaCompiler.source
+    source = variant.javaCompileProvider.get().source
     doFirst {
       classpath = files(variant.javaCompiler.classpath.files, project.android.getBootClasspath())
     }
