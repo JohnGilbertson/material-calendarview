@@ -330,7 +330,7 @@ abstract class CalendarPagerView extends ViewGroup
         dayIndex++;
       } else if(child instanceof ImageView) {
         //dividers...
-        child.layout(0,dividerIndex*height,0,(dividerIndex*height)+1);
+        child.layout(0,dividerIndex*height,parentWidth,(dividerIndex*height)+1);
         dividerIndex++;
       }
 

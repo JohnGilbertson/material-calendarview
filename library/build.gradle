@@ -1,6 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
 
 android {
   compileSdkVersion rootProject.ext.compileSdkVersion
@@ -24,6 +26,12 @@ android {
     targetCompatibility JavaVersion.VERSION_1_8
   }
 }
+
+
+def libraryGroupId = "com.github.prolificinteractive"
+def libraryArtifactId = 'material-calendarview'
+def libraryVersion = android.defaultConfig.versionName
+
 
 group = "com.github.prolificinteractive"
 version = android.defaultConfig.versionName
@@ -58,6 +66,37 @@ android.libraryVariants.all { variant ->
     options {
       links "http://docs.oracle.com/javase/7/docs/api/"
       linksOffline "http://d.android.com/reference", "${android.sdkDirectory}/docs/reference"
+    }
+  }
+}
+
+publishing {
+  publications {
+    aar(MavenPublication) {
+      groupId libraryGroupId
+      version libraryVersion
+      artifactId libraryArtifactId
+
+      artifact("$buildDir/outputs/aar/${artifactId}-${version}.aar")
+    }
+  }
+}
+
+artifactory {
+  contextUrl = 'http://foocode.uk:8081/artifactory'
+  publish {
+    repository {
+      repoKey = 'libs-release-local'
+
+      username = artifactory_username
+      password = artifactory_password
+    }
+    defaults {
+      publications('aar')
+      publishArtifacts = true
+
+      properties = ['qa.level': 'basic', 'q.os': 'android', 'dev.team': 'core']
+      publishPom = true
     }
   }
 }
