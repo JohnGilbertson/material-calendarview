@@ -1,7 +1,10 @@
 package com.prolificinteractive.materialcalendarview;
 
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.text.SpannableString;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -154,6 +157,12 @@ abstract class CalendarPagerView extends ViewGroup
     }
   }
 
+  public void setHighlightTodayColor(int color){
+    for (DayView dayView : dayViews) {
+      dayView.setHighlightTodayColor(color);
+    }
+  }
+
   public void setWeekDayFormatter(WeekDayFormatter formatter) {
     for (WeekDayView dayView : weekDayViews) {
       dayView.setWeekDayFormatter(formatter);
@@ -186,14 +195,32 @@ abstract class CalendarPagerView extends ViewGroup
     for (DayView dayView : dayViews) {
       CalendarDay day = dayView.getDate();
       dayView.setChecked(dates != null && dates.contains(day));
+
     }
     postInvalidate();
   }
 
   protected void updateUi() {
+    CalendarDay today=CalendarDay.today();
+    if(showWeekDays){
+
+      if(mcv.isHighlightToday()) {
+        for (WeekDayView wdv : weekDayViews) {
+          if (wdv.getDayOfWeek() == DayOfWeek.from(today.getDate())) {
+            wdv.setTypeface(null, Typeface.BOLD);
+            wdv.setPaintFlags(wdv.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            wdv.setTextColor(mcv.getSelectionColor());
+          }
+        }
+      }
+    }
     for (DayView dayView : dayViews) {
       CalendarDay day = dayView.getDate();
       dayView.setupSelection(showOtherDates, day.isInRange(minDate, maxDate), isDayEnabled(day));
+      if(dayView.getDate().equals(today)){
+
+      }
+
     }
     postInvalidate();
   }

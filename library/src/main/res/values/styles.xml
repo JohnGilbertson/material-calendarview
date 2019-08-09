@@ -18,4 +18,11 @@
     <item name="textAllCaps">true</item>
   </style>
 
+  <style name="TextAppearance.MaterialCalendarWidget.WeekDay.Selected"
+      parent="android:TextAppearance.DeviceDefault.Small">
+    <item name="android:textSize">12sp</item>
+    <item name="textAllCaps">true</item>
+    <item name="android:textStyle">bold</item>
+  </style>
+
 </resources>

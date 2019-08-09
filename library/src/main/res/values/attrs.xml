@@ -10,6 +10,8 @@
     <attr name="mcv_leftArrow" format="reference"/>
     <attr name="mcv_rightArrow" format="reference"/>
     <attr name="mcv_selectionColor" format="color"/>
+    <attr name="mcv_highlightTodayColor" format="color"/>
+    <attr name="mcv_highlightToday" format="boolean"/>
     <attr name="mcv_dividerColor" format="color"/>
     <attr name="mcv_showOtherDates" format="integer">
       <flag name="none" value="0"/>

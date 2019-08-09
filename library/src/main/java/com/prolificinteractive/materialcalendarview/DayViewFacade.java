@@ -15,6 +15,7 @@ public class DayViewFacade {
 
   private Drawable backgroundDrawable = null;
   private Drawable selectionDrawable = null;
+  private Drawable highlightDrawable = null;
   private final LinkedList<Span> spans = new LinkedList<>();
   private boolean daysDisabled = false;
 
@@ -46,6 +47,19 @@ public class DayViewFacade {
       throw new IllegalArgumentException("Cannot be null");
     }
     selectionDrawable = drawable;
+    isDecorated = true;
+  }
+
+  /**
+   * Set a highlight Drawable
+   *
+   * @param drawable the drawable for highlightToday
+   */
+  public void setHighlightDrawable(@NonNull Drawable drawable) {
+    if (drawable == null) {
+      throw new IllegalArgumentException("Cannot be null");
+    }
+    highlightDrawable = drawable;
     isDecorated = true;
   }
 

@@ -232,6 +232,8 @@ public class MaterialCalendarView extends ViewGroup {
 
   CharSequence calendarContentDescription;
   private int accentColor = 0;
+  private int highlightTodayColor = 0;
+  private boolean highlightToday=false;
   private int dividerColor = 0;
   private int tileHeight = INVALID_TILE_DIMENSION;
   private int tileWidth = INVALID_TILE_DIMENSION;
@@ -363,6 +365,20 @@ public class MaterialCalendarView extends ViewGroup {
               R.styleable.MaterialCalendarView_mcv_selectionColor,
               getThemeAccentColor(context)
           )
+      );
+
+      setHighlightTodayColor(
+          a.getColor(
+                  R.styleable.MaterialCalendarView_mcv_highlightTodayColor,
+                  getThemeAccentColor(context)
+          )
+      );
+
+      setHighlightToday(
+              a.getBoolean(
+                      R.styleable.MaterialCalendarView_mcv_highlightToday,
+                      false
+              )
       );
 
       setDividerColor(
@@ -663,15 +679,51 @@ public class MaterialCalendarView extends ViewGroup {
     adapter.setSelectionColor(color);
     invalidate();
   }
+
   /**
-   * @return the color used for the selection
+   * @return whether to highlight today
+   */
+  public boolean isHighlightToday() {
+    return highlightToday;
+  }
+
+  /**
+   * @param highlightToday whether to hightlight today on the view
+   */
+  public void setHighlightToday(boolean highlightToday) {
+    this.highlightToday = highlightToday;
+  }
+
+  /**
+   * @return the color used for the highlight
+   */
+  public int getHighlightTodayColor() {
+    return highlightTodayColor;
+  }
+
+  /**
+   * @param color The today highlight color
+   */
+  public void setHighlightTodayColor(int color) {
+    if (color == 0) {
+      if (!isInEditMode()) {
+        return;
+      } else {
+        color = Color.GRAY;
+      }
+    }
+    highlightTodayColor = color;
+    invalidate();
+  }
+  /**
+   * @return the color used for the divider
    */
   public int getDividerColor() {
     return dividerColor;
   }
 
   /**
-   * @param color The selection color
+   * @param color The divider color
    */
   public void setDividerColor(int color) {
     if (color == 0) {

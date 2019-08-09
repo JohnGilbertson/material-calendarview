@@ -17,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatCheckedTextView;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView.ShowOtherDates;
@@ -34,11 +35,13 @@ import static com.prolificinteractive.materialcalendarview.MaterialCalendarView.
 
   private CalendarDay date;
   private int selectionColor = Color.GRAY;
+  private int highlightTodayColor = Color.TRANSPARENT;
 
   private final int fadeTime;
   private Drawable customBackground = null;
   private Drawable selectionDrawable;
   private Drawable mCircleDrawable;
+  private Drawable mHighlightDrawable;
   private DayFormatter formatter = DayFormatter.DEFAULT;
   private DayFormatter contentDescriptionFormatter = formatter;
 
@@ -62,6 +65,7 @@ import static com.prolificinteractive.materialcalendarview.MaterialCalendarView.
     }
 
     setDay(day);
+
   }
 
   public void setDay(CalendarDay date) {
@@ -115,6 +119,14 @@ import static com.prolificinteractive.materialcalendarview.MaterialCalendarView.
 
   public void setSelectionColor(int color) {
     this.selectionColor = color;
+    regenerateBackground();
+  }
+
+  public void setHighlightTodayColor(int color) {
+    if(BuildConfig.DEBUG){
+        Log.d("JAG","New highlight today color "+color);
+    }
+    this.highlightTodayColor=color;
     regenerateBackground();
   }
 
@@ -173,6 +185,7 @@ import static com.prolificinteractive.materialcalendarview.MaterialCalendarView.
           new int[] { -android.R.attr.state_enabled }, Color.GRAY));
     }
     setVisibility(shouldBeVisible ? View.VISIBLE : View.INVISIBLE);
+
   }
 
   protected void setupSelection(
@@ -190,7 +203,7 @@ import static com.prolificinteractive.materialcalendarview.MaterialCalendarView.
 
   @Override
   protected void onDraw(@NonNull Canvas canvas) {
-    if (customBackground != null) {
+    if (customBackground != null && !isChecked()) {
       customBackground.setBounds(tempRect);
       customBackground.setState(getDrawableState());
       customBackground.draw(canvas);
@@ -202,11 +215,19 @@ import static com.prolificinteractive.materialcalendarview.MaterialCalendarView.
   }
 
   private void regenerateBackground() {
+    if (CalendarDay.today().equals(date)){
+      if(BuildConfig.DEBUG){
+          Log.d("JAG","Adding the fecking background. It's color is "+highlightTodayColor);
+      }
+      mHighlightDrawable = generateCircleDrawable(highlightTodayColor);
+      setCustomBackground(mHighlightDrawable);
+    }
     if (selectionDrawable != null) {
       setBackgroundDrawable(selectionDrawable);
     } else {
       mCircleDrawable = generateBackground(selectionColor, fadeTime, circleDrawableRect);
       setBackgroundDrawable(mCircleDrawable);
+
     }
   }
 
