@@ -310,7 +310,11 @@ abstract class CalendarPagerView extends ViewGroup
       final int width = child.getMeasuredWidth();
       final int height = child.getMeasuredHeight();
 
-      if(child instanceof DayView) {
+      if(child instanceof ImageView) {
+        //dividers...
+        child.layout(0,dividerIndex*height,parentWidth,(dividerIndex*height)+1);
+        dividerIndex++;
+      } else  {
 
         if (LocalUtils.isRTL()) {
           child.layout(childRight - width, childTop, childRight, childTop + height);
@@ -328,10 +332,6 @@ abstract class CalendarPagerView extends ViewGroup
         }
 
         dayIndex++;
-      } else if(child instanceof ImageView) {
-        //dividers...
-        child.layout(0,dividerIndex*height,parentWidth,(dividerIndex*height)+1);
-        dividerIndex++;
       }
 
     }
