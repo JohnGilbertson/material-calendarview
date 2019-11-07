@@ -317,20 +317,21 @@ import static com.prolificinteractive.materialcalendarview.MaterialCalendarView.
   }
 
   private void calculateBounds(int width, int height) {
-    final int radius = Math.round(Math.min(height, width) * 0.75f);
+    final int radius = Math.min(height, width);
     final int offset = Math.abs(height - width) / 2;
-
+    final float density=getResources().getDisplayMetrics().density;
+    final int border=Math.round(10*density);
     // Lollipop platform bug. Circle drawable offset needs to be half of normal offset
     final int circleOffset =
         Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP ? offset / 2 : offset;
 
     if (width >= height) {
-      tempRect.set(offset, 0, radius + offset, height);
+      tempRect.set(offset+border, border, radius + offset - border, height-border);
 
-      circleDrawableRect.set(circleOffset, 0, radius + circleOffset, height);
+      circleDrawableRect.set(circleOffset + border, border, radius + circleOffset - border, height-border);
     } else {
-      tempRect.set(0, offset, width, radius + offset);
-      circleDrawableRect.set(0, circleOffset, width, radius + circleOffset);
+      tempRect.set(border, offset+border, width-border, radius + offset - border);
+      circleDrawableRect.set(border, circleOffset+border, width - border, radius + circleOffset - border);
     }
   }
 }
