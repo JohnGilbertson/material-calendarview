@@ -183,6 +183,7 @@ import static com.prolificinteractive.materialcalendarview.MaterialCalendarView.
     if (!isInMonth && shouldBeVisible) {
       setTextColor(getTextColors().getColorForState(
           new int[] { -android.R.attr.state_enabled }, Color.GRAY));
+
     }
     setVisibility(shouldBeVisible ? View.VISIBLE : View.INVISIBLE);
 
@@ -277,12 +278,15 @@ import static com.prolificinteractive.materialcalendarview.MaterialCalendarView.
   /**
    * @param facade apply the facade to us
    */
-  void applyFacade(DayViewFacade facade) {
+  void  applyFacade(DayViewFacade facade) {
     this.isDecoratedDisabled = facade.areDaysDisabled();
     setEnabled();
 
     setCustomBackground(facade.getBackgroundDrawable());
-    setSelectionDrawable(facade.getSelectionDrawable());
+    if(isSelected()){
+      setSelectionDrawable(facade.getSelectionDrawable());
+    }
+
 
     // Facade has spans
     List<DayViewFacade.Span> spans = facade.getSpans();
