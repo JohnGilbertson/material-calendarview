@@ -239,20 +239,16 @@ import static com.prolificinteractive.materialcalendarview.MaterialCalendarView.
         drawable.addState(new int[]{android.R.attr.state_checked}, generateCircleDrawable(color));
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        if(selectionDrawable!=null){
-            drawable.addState(new int[] { android.R.attr.state_checked }, selectionDrawable);
-        } else {
-            drawable.addState(
-                    new int[] { android.R.attr.state_pressed },
-                    generateRippleDrawable(color, bounds)
-            );
-        }
+
+        drawable.addState(
+                new int[] { android.R.attr.state_pressed },
+                generateRippleDrawable(color, bounds)
+        );
+
     } else {
-        if(selectionDrawable!=null){
-            drawable.addState(new int[] { android.R.attr.state_checked }, selectionDrawable);
-        } else {
-            drawable.addState(new int[]{android.R.attr.state_pressed}, generateCircleDrawable(color));
-        }
+
+        drawable.addState(new int[]{android.R.attr.state_pressed}, generateCircleDrawable(color));
+
     }
 
     drawable.addState(new int[] { }, generateCircleDrawable(Color.TRANSPARENT));
