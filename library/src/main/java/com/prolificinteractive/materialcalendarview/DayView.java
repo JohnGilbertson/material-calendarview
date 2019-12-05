@@ -220,6 +220,7 @@ import static com.prolificinteractive.materialcalendarview.MaterialCalendarView.
       if(BuildConfig.DEBUG){
           Log.d("JAG","Adding the fecking background. It's color is "+highlightTodayColor);
       }
+      this.setSelected(true);
       mHighlightDrawable = generateCircleDrawable(highlightTodayColor);
       setCustomBackground(mHighlightDrawable);
     }
