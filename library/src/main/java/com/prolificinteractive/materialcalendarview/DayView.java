@@ -322,9 +322,6 @@ import static com.prolificinteractive.materialcalendarview.MaterialCalendarView.
     final int offset = Math.abs(height - width) / 2;
     final float density=getResources().getDisplayMetrics().density;
     int border=Math.round(8*density);
-    if(density<2) {
-      border = Math.round(4 * density);
-    }
     // Lollipop platform bug. Circle drawable offset needs to be half of normal offset
     final int circleOffset =
         Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP ? offset / 2 : offset;

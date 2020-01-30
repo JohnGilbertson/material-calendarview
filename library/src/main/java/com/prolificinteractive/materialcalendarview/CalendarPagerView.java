@@ -203,7 +203,6 @@ abstract class CalendarPagerView extends ViewGroup
   protected void updateUi() {
     CalendarDay today=CalendarDay.today();
     if(showWeekDays){
-
       if(mcv.isHighlightToday()) {
         for (WeekDayView wdv : weekDayViews) {
           if (wdv.getDayOfWeek() == DayOfWeek.from(today.getDate())) {
@@ -243,6 +242,7 @@ abstract class CalendarPagerView extends ViewGroup
     if (v instanceof DayView) {
       final DayView dayView = (DayView) v;
       mcv.onDateClicked(dayView);
+      //updateUi();
     }
   }
 
